@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { inspect } from '@rxjs-insights/devtools';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { User, FindByParams } from './user.type';
@@ -11,7 +12,7 @@ export class UsersService {
   #http = inject(HttpClient);
   #apiUrl = 'https://jsonplaceholder.typicode.com';
   #users$ = new BehaviorSubject<Array<User>>([]);
-  users$ = this.#users$.asObservable();
+  users$ = this.#users$.asObservable().pipe(inspect);
 
   getAll(params?: FindByParams): Observable<Array<User>> {
     return this.#http

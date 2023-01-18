@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, TrackByFunction } from '@angular/core';
+import { inspect } from '@rxjs-insights/devtools';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { switchMap, iif } from 'rxjs';
 
@@ -31,6 +32,7 @@ export default class UsersComponent implements OnInit {
 
     modalRef.content?.saveUser
       .pipe(
+        inspect,
         switchMap((user) =>
           iif(
             () => typeof user.id === 'number',
