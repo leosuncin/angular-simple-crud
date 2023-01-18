@@ -1,0 +1,236 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Add New User</h4>
+
+  <button
+    type="button"
+    class="btn-close close pull-right"
+    aria-label="Close"
+    (click)="modalRef.hide()"
+  >
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form class="row" [formGroup]="userForm" (ngSubmit)="submitUser()">
+    <div class="col-12">
+      <input
+        type="text"
+        name="name"
+        formControlName="name"
+        placeholder="Name"
+        class="form-control my-2"
+        [ngClass]="{ 'is-invalid': isInvalid('name') }"
+      />
+      <div class="invalid-feedback">
+        {{ getError('name') }}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <input
+        type="text"
+        name="username"
+        formControlName="username"
+        placeholder="Username"
+        class="form-control my-2"
+        [ngClass]="{ 'is-invalid': isInvalid('username') }"
+      />
+      <div class="invalid-feedback">
+        {{ getError('username') }}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <input
+        type="email"
+        name="email"
+        formControlName="email"
+        placeholder="Email"
+        class="form-control my-2"
+        [ngClass]="{ 'is-invalid': isInvalid('email') }"
+      />
+      <div class="invalid-feedback">
+        {{ getError('email') }}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <input
+        type="tel"
+        name="phone"
+        formControlName="phone"
+        placeholder="Telephone"
+        class="form-control my-2"
+        [ngClass]="{ 'is-invalid': isInvalid('phone') }"
+      />
+      <div class="invalid-feedback">
+        {{ getError('phone') }}
+      </div>
+    </div>
+
+    <div class="col-12">
+      <input
+        type="url"
+        name="website"
+        formControlName="website"
+        placeholder="Website"
+        class="form-control my-2"
+        [ngClass]="{ 'is-invalid': isInvalid('website') }"
+      />
+      <div class="invalid-feedback">
+        {{ getError('website') }}
+      </div>
+    </div>
+
+    <fieldset formGroupName="address" name="address">
+      <legend>Address</legend>
+
+      <div class="col-12">
+        <input
+          type="text"
+          name="street"
+          formControlName="street"
+          placeholder="Street"
+          class="form-control my-2"
+          [ngClass]="{ 'is-invalid': isInvalid('address.street') }"
+        />
+        <div class="invalid-feedback">
+          {{ getError('address.street') }}
+        </div>
+      </div>
+
+      <div class="col-12">
+        <input
+          type="text"
+          name="suite"
+          formControlName="suite"
+          placeholder="Suite"
+          class="form-control my-2"
+          [ngClass]="{ 'is-invalid': isInvalid('address.suite') }"
+        />
+        <div class="invalid-feedback">
+          {{ getError('address.suite') }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <input
+            type="text"
+            name="city"
+            formControlName="city"
+            placeholder="City"
+            class="form-control my-2"
+            [ngClass]="{ 'is-invalid': isInvalid('address.city') }"
+          />
+          <div class="invalid-feedback">
+            {{ getError('address.city') }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <input
+            type="text"
+            name="zipcode"
+            formControlName="zipcode"
+            placeholder="Zip code"
+            class="form-control my-2"
+            [ngClass]="{ 'is-invalid': isInvalid('address.zipcode') }"
+          />
+          <div class="invalid-feedback">
+            {{ getError('address.zipcode') }}
+          </div>
+        </div>
+      </div>
+
+      <fieldset class="row" formGroupName="geo">
+        <div class="col-6">
+          <input
+            type="number"
+            name="lat"
+            formControlName="lat"
+            placeholder="Latitude"
+            class="form-control my-2"
+            [ngClass]="{ 'is-invalid': isInvalid('address.lat') }"
+          />
+          <div class="invalid-feedback">
+            {{ getError('address.geo.lat') }}
+          </div>
+        </div>
+
+        <div class="col-6">
+          <input
+            type="number"
+            name="lng"
+            formControlName="lng"
+            placeholder="Longitude"
+            class="form-control my-2"
+            [ngClass]="{ 'is-invalid': isInvalid('address.lng') }"
+          />
+          <div class="invalid-feedback">
+            {{ getError('address.geo.lng') }}
+          </div>
+        </div>
+      </fieldset>
+    </fieldset>
+
+    <br class="vw-100" />
+
+    <fieldset formGroupName="company" name="company">
+      <legend>Company</legend>
+
+      <div class="col-12">
+        <input
+          type="text"
+          name="name"
+          formControlName="name"
+          placeholder="Name"
+          class="form-control my-2"
+          [ngClass]="{ 'is-invalid': isInvalid('company.name') }"
+        />
+        <div class="invalid-feedback">
+          {{ getError('company.name') }}
+        </div>
+      </div>
+
+      <div class="col-12">
+        <textarea
+          name="catchPhrase"
+          formControlName="catchPhrase"
+          placeholder="Catch phrase"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': isInvalid('company.catchPhrase') }"
+        >
+        </textarea>
+        <div class="invalid-feedback">
+          {{ getError('company.catchPhrase') }}
+        </div>
+      </div>
+
+      <div class="col-12">
+        <input
+          type="text"
+          name="bs"
+          formControlName="bs"
+          placeholder="Business"
+          class="form-control my-2"
+          [ngClass]="{ 'is-invalid': isInvalid('company.bs') }"
+        />
+        <div class="invalid-feedback">
+          {{ getError('company.bs') }}
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="col-12">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="userForm.invalid"
+      >
+        Add New User
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,8 +1,11 @@
-import { Component, inject, TrackByFunction } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject, TrackByFunction } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { switchMap } from 'rxjs';
 
-import { UsersService } from './users.service';
+import { UserFormComponent } from './user-form.component';
 import { User } from './user.type';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'crud-users',
@@ -13,7 +16,16 @@ import { User } from './user.type';
 export class UsersComponent {
   static title = 'Users';
   #usersService = inject(UsersService);
+  #modalService = inject(BsModalService);
   protected users$ = this.#usersService.getAll();
 
   trackByFn: TrackByFunction<User> = (_, user) => user.id;
+
+  protected openModal() {
+    const modalRef = this.#modalService.show(UserFormComponent);
+
+    modalRef.content?.saveUser
+      .pipe(switchMap((user) => this.#usersService.create(user)))
+      .subscribe();
+  }
 }

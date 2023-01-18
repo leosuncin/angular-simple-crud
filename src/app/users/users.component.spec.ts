@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Mock } from 'moq.ts';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { of } from 'rxjs';
 
 import users from './user.fixture';
@@ -20,6 +21,14 @@ describe('UsersComponent', () => {
             const mock = new Mock<UsersService>()
               .setup((service) => service.getAll())
               .callback(() => of(users));
+
+            return mock.object();
+          },
+        },
+        {
+          provide: BsModalService,
+          useFactory() {
+            const mock = new Mock<BsModalService>();
 
             return mock.object();
           },
