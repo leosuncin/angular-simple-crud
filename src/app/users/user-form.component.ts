@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -9,7 +9,7 @@ function buildUserForm() {
   const formBuilder = inject(FormBuilder);
 
   return formBuilder.nonNullable.group({
-    id: [],
+    id: undefined as undefined | number,
     name: ['', Validators.required],
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -42,7 +42,14 @@ function buildUserForm() {
 export class UserFormComponent {
   protected userForm = buildUserForm();
   protected modalRef = inject(BsModalRef);
+  protected editing = false;
 
+  @Input() set user(user: User | undefined) {
+    if (user) {
+      this.userForm.patchValue(user);
+      this.editing = true;
+    }
+  }
   @Output() saveUser = new EventEmitter<Partial<User>>();
 
   protected isInvalid(field: string) {

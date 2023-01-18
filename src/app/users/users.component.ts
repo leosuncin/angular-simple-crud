@@ -21,11 +21,19 @@ export class UsersComponent {
 
   trackByFn: TrackByFunction<User> = (_, user) => user.id;
 
-  protected openModal() {
-    const modalRef = this.#modalService.show(UserFormComponent);
+  protected openModal(user?: User) {
+    const modalRef = this.#modalService.show(UserFormComponent, {
+      initialState: { user },
+    });
 
     modalRef.content?.saveUser
-      .pipe(switchMap((user) => this.#usersService.create(user)))
+      .pipe(
+        switchMap((user) =>
+          typeof user.id !== 'number'
+            ? this.#usersService.create(user)
+            : this.#usersService.update(user.id, user)
+        )
+      )
       .subscribe();
   }
 }

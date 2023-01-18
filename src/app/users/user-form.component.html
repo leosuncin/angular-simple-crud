@@ -1,5 +1,7 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Add New User</h4>
+  <h4 class="modal-title pull-left">
+    {{ editing ? 'Edit User' : 'Add New User' }}
+  </h4>
 
   <button
     type="button"
@@ -229,7 +231,7 @@
         type="submit"
         [disabled]="userForm.invalid"
       >
-        Add New User
+        {{ editing ? 'Edit User' : 'Add New User' }}
       </button>
     </div>
   </form>
