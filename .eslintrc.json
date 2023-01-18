@@ -23,7 +23,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "angular-simple-crud",
+            "prefix": "crud",
             "style": "kebab-case"
           }
         ]

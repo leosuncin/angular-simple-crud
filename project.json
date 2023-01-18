@@ -3,7 +3,7 @@
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "./src",
-  "prefix": "angular-simple-crud",
+  "prefix": "crud",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",

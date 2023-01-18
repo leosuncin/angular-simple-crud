@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'angular-simple-crud-root',
+  selector: 'crud-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
