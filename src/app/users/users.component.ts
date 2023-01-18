@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, TrackByFunction } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { switchMap } from 'rxjs';
+import { switchMap, iif } from 'rxjs';
 
 import { UserFormComponent } from './user-form.component';
 import { User } from './user.type';
@@ -29,9 +29,11 @@ export class UsersComponent {
     modalRef.content?.saveUser
       .pipe(
         switchMap((user) =>
-          typeof user.id !== 'number'
-            ? this.#usersService.create(user)
-            : this.#usersService.update(user.id, user)
+          iif(
+            () => typeof user.id === 'number',
+            this.#usersService.update(user.id as number, user),
+            this.#usersService.create(user)
+          )
         )
       )
       .subscribe();
