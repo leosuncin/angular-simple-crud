@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: NxWelcomeComponent,
+    pathMatch: 'full',
+    redirectTo: 'users',
   },
   {
     path: 'users',
