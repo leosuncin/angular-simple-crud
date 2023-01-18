@@ -36,4 +36,8 @@ export class UsersComponent {
       )
       .subscribe();
   }
+
+  protected remove(user: User) {
+    return this.#usersService.remove(user.id).subscribe();
+  }
 }
