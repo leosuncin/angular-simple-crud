@@ -8,12 +8,11 @@ import { User } from './user.type';
 import { UsersService } from './users.service';
 
 @Component({
-  selector: 'crud-users',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './users.component.html',
 })
-export class UsersComponent implements OnInit {
+export default class UsersComponent implements OnInit {
   static title = 'Users';
   #usersService = inject(UsersService);
   #modalService = inject(BsModalService);

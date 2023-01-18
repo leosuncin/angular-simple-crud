@@ -10,7 +10,7 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import users from './user.fixture';
 import { User } from './user.type';
-import { UsersComponent } from './users.component';
+import UsersComponent from './users.component';
 import { UsersService } from './users.service';
 
 describe('UsersComponent', () => {
