@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, TrackByFunction } from '@angular/core';
+import { Component, inject, OnInit, TrackByFunction } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { switchMap, iif } from 'rxjs';
 
@@ -13,11 +13,15 @@ import { UsersService } from './users.service';
   imports: [CommonModule],
   templateUrl: './users.component.html',
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
   static title = 'Users';
   #usersService = inject(UsersService);
   #modalService = inject(BsModalService);
-  protected users$ = this.#usersService.getAll();
+  protected users$ = this.#usersService.users$;
+
+  ngOnInit() {
+    this.#usersService.getAll().subscribe();
+  }
 
   trackByFn: TrackByFunction<User> = (_, user) => user.id;
 

@@ -1,9 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { Mock } from 'moq.ts';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import users from './user.fixture';
+import { User } from './user.type';
 import { UsersComponent } from './users.component';
 import { UsersService } from './users.service';
 
@@ -18,9 +24,16 @@ describe('UsersComponent', () => {
         {
           provide: UsersService,
           useFactory() {
+            const users$ = new BehaviorSubject<Array<User>>([]);
             const mock = new Mock<UsersService>()
               .setup((service) => service.getAll())
-              .callback(() => of(users));
+              .callback(() => {
+                users$.next(users);
+
+                return of(users);
+              })
+              .setup((service) => service.users$)
+              .returns(users$.asObservable());
 
             return mock.object();
           },
@@ -45,9 +58,12 @@ describe('UsersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show all of the users in the table', () => {
+  it('should show all of the users in the table', fakeAsync(() => {
+    component.ngOnInit();
+    tick();
+
     const tableRows = fixture.nativeElement.querySelectorAll('tbody tr');
 
     expect(tableRows.length).toBe(users.length);
-  });
+  }));
 });

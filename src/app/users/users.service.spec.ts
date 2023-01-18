@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import users from './user.fixture';
+import userFixtures from './user.fixture';
 import { User } from './user.type';
 import { UsersService } from './users.service';
 
@@ -26,16 +26,24 @@ describe('UsersService', () => {
   });
 
   it('should get all the users', () => {
+    expect.assertions(6);
+    service.users$.subscribe((users) => {
+      // this block is called twice
+      expect(Array.isArray(users)).toBe(true);
+      expect(users).toStrictEqual(userFixtures);
+    });
     service.getAll().subscribe((users) => {
       expect(Array.isArray(users)).toBe(true);
+      expect(users).toStrictEqual(userFixtures);
     });
 
     const request = httpMock.expectOne((request) => request.method === 'GET');
 
-    request.flush(users);
+    request.flush(userFixtures);
   });
 
   it('should create one user', () => {
+    expect.assertions(3);
     const data: Partial<User> = {
       name: 'Kerry Hardy',
       username: 'kerry44',
@@ -58,6 +66,11 @@ describe('UsersService', () => {
         bs: 'cupidatat laboris eu',
       },
     };
+
+    service.users$.subscribe((users) => {
+      expect(users).toHaveLength(userFixtures.length + 1);
+      expect(users.at(-1)).toMatchObject(data);
+    });
     service.create(data).subscribe((user) => {
       expect(user).toMatchObject(data);
     });
@@ -68,6 +81,7 @@ describe('UsersService', () => {
   });
 
   it('should update one user', () => {
+    expect.assertions(3);
     const data: Partial<User> = {
       id: 1,
       name: 'Kimberly Hernandez',
@@ -91,17 +105,32 @@ describe('UsersService', () => {
         bs: 'quis veniam duis',
       },
     };
+
+    service.users$.subscribe((users) => {
+      expect(users).toHaveLength(userFixtures.length);
+      expect(users.at(0)).toMatchObject(data);
+    });
     service.update(1, data).subscribe((user) => {
       expect(user).toMatchObject(data);
     });
 
     const request = httpMock.expectOne((request) => request.method === 'PATCH');
 
-    request.flush({ ...users.find(({ id }) => id === data.id), ...data });
+    request.flush({
+      ...userFixtures.find(({ id }) => id === data.id),
+      ...data,
+    });
   });
 
   it('should remove one user', () => {
-    service.remove(1).subscribe((response) => {
+    expect.assertions(3);
+    const userId = 1;
+
+    service.users$.subscribe((users) => {
+      expect(users).toHaveLength(userFixtures.length - 1);
+      expect(users.find(({ id }) => id === userId)).toBeUndefined();
+    });
+    service.remove(userId).subscribe((response) => {
       expect(response).toBeUndefined();
     });
 
